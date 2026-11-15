@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#33615c">
+  <title>Pawstry Mahjong</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #1f3d3a; overflow: hidden;
+      -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: none;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    #wrap { position: fixed; inset: 0; display: flex; justify-content: center; }
+    /* phone: fill the screen; desktop: a centred portrait column */
+    #unity-canvas { height: 100%; width: 100%; max-width: calc(100dvh * 0.62); background: #33615c; display: block; outline: none; }
+    #loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #fff5e0; background: #33615c; gap: 18px; }
+    #loading h1 { margin: 0; font-size: 30px; letter-spacing: .5px; }
+    #bar { width: min(70vw, 300px); height: 14px; border-radius: 8px; background: rgba(0,0,0,.25); overflow: hidden; }
+    #fill { width: 0%; height: 100%; background: #f7c948; border-radius: 8px; transition: width .15s; }
+    #msg { font-size: 14px; opacity: .8; min-height: 18px; text-align: center; padding: 0 20px; }
+  </style>
+</head>
+<body>
+  <div id="wrap"><canvas id="unity-canvas" tabindex="-1"></canvas></div>
+  <div id="loading">
+    <h1>🐾 Pawstry Mahjong</h1>
+    <div id="bar"><div id="fill"></div></div>
+    <div id="msg"></div>
+  </div>
+  <script>
+    const canvas = document.querySelector("#unity-canvas");
+    const loading = document.querySelector("#loading");
+    const fill = document.querySelector("#fill");
+    const msg = document.querySelector("#msg");
+    const buildUrl = "Build";
+    const config = {
+      dataUrl: buildUrl + "/WebGL.data.unityweb",
+      frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb",
+      codeUrl: buildUrl + "/WebGL.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "Pawstry Mahjong",
+      productVersion: "1.0",
+      // phones report 3x; 2x keeps iOS Safari inside its memory limits
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      showBanner: (text, type) => { if (type === "error") msg.textContent = text; }
+    };
+    document.addEventListener("gesturestart", e => e.preventDefault());
+    const script = document.createElement("script");
+    script.src = buildUrl + "/WebGL.loader.js";
+    script.onload = () => {
+      createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 100) + "%"; })
+        .then(() => { loading.style.display = "none"; })
+        .catch(e => { msg.textContent = String(e); });
+    };
+    script.onerror = () => { msg.textContent = "Could not load the game files."; };
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>
