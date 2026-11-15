@@ -8,13 +8,17 @@
   <meta name="theme-color" content="#33615c">
   <title>Purrista Mahjong</title>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; background: #1f3d3a; overflow: hidden;
+    html, body { margin: 0; padding: 0; height: 100%; background: #1f3d3a; overflow: hidden; overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%;
       -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: none;
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
-    #wrap { position: fixed; inset: 0; display: flex; justify-content: center; }
+    /* top/left/right/bottom keep older Safari (before 14.1) happy where "inset" is unknown */
+    #wrap { position: fixed; top: 0; left: 0; right: 0; bottom: 0; inset: 0; display: flex; justify-content: center; }
     /* phone: fill the screen; desktop: a centred portrait column */
-    #unity-canvas { height: 100%; width: 100%; max-width: calc(100dvh * 0.62); background: #33615c; display: block; outline: none; }
-    #loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    #unity-canvas { height: 100%; width: 100%; max-width: calc(100vh * 0.62); background: #33615c; display: block; outline: none; touch-action: none; }
+    /* dvh follows the real visible height on phones (address bar); browsers without it keep the vh rule */
+    @supports (height: 100dvh) { #unity-canvas { max-width: calc(100dvh * 0.62); } }
+    #loading { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
       color: #fff5e0; background: #33615c; gap: 18px; }
     #loading h1 { margin: 0; font-size: 30px; letter-spacing: .5px; }
     #bar { width: min(70vw, 300px); height: 14px; border-radius: 8px; background: rgba(0,0,0,.25); overflow: hidden; }
@@ -45,9 +49,9 @@
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/WebGL.data.unityweb",
-      frameworkUrl: buildUrl + "/WebGL.framework.js.unityweb",
-      codeUrl: buildUrl + "/WebGL.wasm.unityweb",
+      dataUrl: buildUrl + "/b378a493feb9cf9302cd5773ee38ce0c.data.unityweb",
+      frameworkUrl: buildUrl + "/8c4efb7afaafae73e2a5b732be30b6fe.framework.js.unityweb",
+      codeUrl: buildUrl + "/dc54e91b7eb37ba02ba5a27e5cf6ead6.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
@@ -56,16 +60,27 @@
       devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
       showBanner: (text, type) => { if (type === "error") { msg.dataset.error = "1"; msg.textContent = text; } }
     };
+    // no pinch, double-tap zoom or long-press menus on the game (iOS Safari, Android Chrome)
     document.addEventListener("gesturestart", e => e.preventDefault());
+    document.addEventListener("dblclick", e => e.preventDefault(), { passive: false });
+    canvas.addEventListener("contextmenu", e => e.preventDefault());
+    // the game needs WebGL 2 (Safari 15+, Chrome, Edge, Firefox); explain instead of showing a blank page
+    const gl2 = (() => { try { return !!document.createElement("canvas").getContext("webgl2"); } catch (e) { return false; } })();
+    if (!gl2) {
+      clearInterval(quoteTimer);
+      msg.dataset.error = "1";
+      msg.textContent = tr ? "Tarayıcın WebGL 2 desteklemiyor. Chrome, Safari 15+ ya da Edge'in güncel sürümünü dene."
+                           : "Your browser does not support WebGL 2. Please try an up-to-date Chrome, Safari 15+ or Edge.";
+    }
     const script = document.createElement("script");
-    script.src = buildUrl + "/WebGL.loader.js";
+    script.src = buildUrl + "/045c4cce727c0795e4d2a6bb93c4fb95.loader.js";
     script.onload = () => {
       createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 100) + "%"; })
         .then(() => { clearInterval(quoteTimer); loading.style.display = "none"; })
         .catch(e => { msg.textContent = String(e); });
     };
     script.onerror = () => { msg.textContent = "Could not load the game files."; };
-    document.body.appendChild(script);
+    if (gl2) document.body.appendChild(script);
   </script>
 </body>
 </html>
