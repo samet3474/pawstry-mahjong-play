@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#33615c">
+  <meta name="theme-color" content="#2a170b">
   <title>Purrista Mahjong</title>
   <style>
     html, body { margin: 0; padding: 0; height: 100%; background: #1f3d3a; overflow: hidden; overscroll-behavior: none;
@@ -18,21 +18,30 @@
     #unity-canvas { height: 100%; width: 100%; max-width: calc(100vh * 0.62); background: #33615c; display: block; outline: none; touch-action: none; }
     /* dvh follows the real visible height on phones (address bar); browsers without it keep the vh rule */
     @supports (height: 100dvh) { #unity-canvas { max-width: calc(100dvh * 0.62); } }
-    #loading { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: #fff5e0; background: #33615c; gap: 18px; }
-    #loading h1 { margin: 0; font-size: 30px; letter-spacing: .5px; }
-    #bar { width: min(70vw, 300px); height: 14px; border-radius: 8px; background: rgba(0,0,0,.25); overflow: hidden; }
-    #fill { width: 0%; height: 100%; background: #f7c948; border-radius: 8px; transition: width .15s; }
-    #msg { font-size: 14px; opacity: .8; min-height: 18px; text-align: center; padding: 0 20px; }
+    /* the same scene as the game's loading screen (closed cafe door, logo, saying, one golden bar): the game takes
+       over at 90 % and finishes the same bar, so players see a single loading bar */
+    #loading { position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; background: #2a170b; }
+    #scene { position: relative; height: 100%; width: 100%; max-width: calc(100vh * 0.62); overflow: hidden;
+      background: #3a2010 url("TemplateData/door.jpg") center / cover no-repeat; }
+    @supports (height: 100dvh) { #scene { max-width: calc(100dvh * 0.62); } }
+    #veil { position: absolute; inset: 0; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 13, 5, .42); }
+    #logo { position: absolute; left: 50%; top: 18%; width: 80%; max-width: 520px; transform: translate(-50%, -50%); }
+    #msg { position: absolute; left: 6%; right: 6%; bottom: 25%; text-align: center; color: #fff2d6; font-size: clamp(16px, 4.4vw, 26px);
+      font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,.75); min-height: 1.4em; }
+    #bar { position: absolute; left: 50%; bottom: 17%; width: 76%; height: 16px; transform: translateX(-50%); border-radius: 12px;
+      background: #2a1407; border: 4px solid #66380f; box-shadow: 0 3px 6px rgba(0,0,0,.5); }
+    #fill { width: 0%; height: 100%; border-radius: 10px; transition: width .2s;
+      background: linear-gradient(#ffe39a 0%, #ffc847 45%, #f0a91f 100%); }
   </style>
 </head>
 <body>
   <div id="wrap"><canvas id="unity-canvas" tabindex="-1"></canvas></div>
-  <div id="loading">
-    <h1>🐾 Purrista Mahjong</h1>
-    <div id="bar"><div id="fill"></div></div>
+  <div id="loading"><div id="scene">
+    <div id="veil"></div>
+    <img id="logo" src="TemplateData/logo.png" alt="Purrista Mahjong">
     <div id="msg"></div>
-  </div>
+    <div id="bar"><div id="fill"></div></div>
+  </div></div>
   <script>
     const canvas = document.querySelector("#unity-canvas");
     const loading = document.querySelector("#loading");
@@ -49,9 +58,9 @@
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/3cf41f4f0b475b27300094cae716be2e.data.unityweb",
+      dataUrl: buildUrl + "/1d61d756aabef6b8fc39082d42e2e6d8.data.unityweb",
       frameworkUrl: buildUrl + "/89c6d252ed45cfff3da441fa0d9de332.framework.js.unityweb",
-      codeUrl: buildUrl + "/decf6e6bdaf1f6ac230126a62ec074e4.wasm.unityweb",
+      codeUrl: buildUrl + "/cbb03d9c9c8234f2fa2b39c6d384aa58.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
@@ -73,10 +82,10 @@
                            : "Your browser does not support WebGL 2. Please try an up-to-date Chrome, Safari 15+ or Edge.";
     }
     const script = document.createElement("script");
-    script.src = buildUrl + "/41f5cef50f1d9d8a4355b861b5471d03.loader.js";
+    script.src = buildUrl + "/c992ddb91e6728fef5d3b99634934f7e.loader.js";
     script.onload = () => {
-      createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 100) + "%"; })
-        .then(() => { clearInterval(quoteTimer); loading.style.display = "none"; })
+      createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 90) + "%"; })
+        .then(() => { clearInterval(quoteTimer); fill.style.width = "90%"; setTimeout(() => { loading.style.display = "none"; }, 300); })
         .catch(e => { msg.textContent = String(e); });
     };
     script.onerror = () => { msg.textContent = "Could not load the game files."; };
