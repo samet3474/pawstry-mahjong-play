@@ -58,9 +58,9 @@
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/8f1685dc0faf782d86f34faa4405d00d.data.unityweb",
+      dataUrl: buildUrl + "/044a55a7e8e9079adc5ffd322392c4f8.data.unityweb",
       frameworkUrl: buildUrl + "/81892cb6ff7f6e6d28cc85b97d560670.framework.js.unityweb",
-      codeUrl: buildUrl + "/6b8689987e21c6d5c1012e11038e902a.wasm.unityweb",
+      codeUrl: buildUrl + "/8e1cf60d2d1f39b166d41bad72750bf0.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
@@ -85,7 +85,7 @@
     script.src = buildUrl + "/c992ddb91e6728fef5d3b99634934f7e.loader.js";
     script.onload = () => {
       createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 90) + "%"; })
-        .then(() => { clearInterval(quoteTimer); fill.style.width = "90%"; setTimeout(() => { loading.style.display = "none"; }, 300); })
+        .then(() => { clearInterval(quoteTimer); fill.style.width = "100%"; setTimeout(() => { loading.style.transition = "opacity .35s"; loading.style.opacity = "0"; setTimeout(() => { loading.style.display = "none"; }, 380); }, 350); })
         .catch(e => { msg.textContent = String(e); });
     };
     script.onerror = () => { msg.textContent = "Could not load the game files."; };
