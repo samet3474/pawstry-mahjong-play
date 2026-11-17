@@ -28,7 +28,7 @@
     @supports (height: 100dvh) { #scene { max-width: calc(100dvh * 0.62); } }
     #veil { position: absolute; inset: 0; top: 0; left: 0; right: 0; bottom: 0; background: rgba(26, 13, 5, .42); }
     #logo { position: absolute; left: 50%; top: 18%; width: 80%; max-width: 520px; transform: translate(-50%, -50%); }
-    #msg { position: absolute; left: 6%; right: 6%; bottom: 25%; text-align: center; color: #fff2d6; font-size: clamp(16px, 4.4vw, 26px);
+    #msg { white-space: pre-line; position: absolute; left: 6%; right: 6%; bottom: 25%; text-align: center; color: #fff2d6; font-size: clamp(16px, 4.4vw, 26px);
       font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,.75); min-height: 1.4em; }
     #bar { position: absolute; left: 50%; bottom: 17%; width: 76%; height: 18px; transform: translateX(-50%); border-radius: 12px;
       background: #fbeed6; border: 4px solid #4a2610; box-shadow: 0 4px 10px rgba(0,0,0,.45); }
@@ -52,20 +52,20 @@
     const loading = document.querySelector("#loading");
     const fill = document.querySelector("#fill");
     const msg = document.querySelector("#msg");
-    // calm sayings while the game loads (same lines as in the game)
+    // famous sayings with their authors while the game loads (same list as in the game)
     const tr = (navigator.language || "").toLowerCase().startsWith("tr");
     const quotes = tr
-      ? ["Acele etme; en güzel kahve yavaş demlenir.", "Derin bir nefes al, taşlar seni bekler.", "Bir pati, bir taş, bir mola.", "Sakin bir zihin her yolu görür.", "Bir fincan huzur, bir tepsi taş."]
-      : ["No rush; the best coffee brews slowly.", "Take a deep breath, the tiles will wait.", "One paw, one tile, one pause.", "A calm mind sees every path.", "A cup of calm, a tray of tiles."];
+      ? [["Bin millik bir yolculuk tek bir adımla başlar.","Lao Tzu"],["Hayatta en hakiki mürşit ilimdir.","Mustafa Kemal Atatürk"],["Gelin tanış olalım, işi kolay kılalım.","Yunus Emre"],["Dün dündür, bugün yeni şeyler söylemek lazım.","Mevlânâ"],["Okunacak en büyük kitap insandır.","Hacı Bektaş Veli"],["Sorgulanmamış bir hayat yaşanmaya değmez.","Sokrates"],["Hayatımız, düşüncelerimizin eseridir.","Marcus Aurelius"],["Şans, hazırlığın fırsatla buluştuğu yerdir.","Seneca"],["Bilgi güçtür.","Francis Bacon"],["Sabır acıdır, ama meyvesi tatlıdır.","Jean-Jacques Rousseau"],["Bugün yapabileceğini yarına bırakma.","Benjamin Franklin"],["Hayat bisiklete binmek gibidir; dengede kalmak için ilerlemelisin.","Albert Einstein"],["Yapabileceğine de yapamayacağına da inansan, haklısın.","Henry Ford"],["Damlaya damlaya göl olur.","Atasözü"],["Bir fincan kahvenin kırk yıl hatırı vardır.","Atasözü"],["Sabreden derviş muradına ermiş.","Atasözü"]]
+      : [["A journey of a thousand miles begins with a single step.","Lao Tzu"],["The truest guide in life is knowledge.","Mustafa Kemal Atatürk"],["Come, let us be friends and make things easy.","Yunus Emre"],["Yesterday is yesterday; today calls for new words.","Mevlânâ"],["The greatest book to read is a human being.","Hacı Bektaş Veli"],["The unexamined life is not worth living.","Sokrates"],["Our life is what our thoughts make it.","Marcus Aurelius"],["Luck is what happens when preparation meets opportunity.","Seneca"],["Knowledge is power.","Francis Bacon"],["Patience is bitter, but its fruit is sweet.","Jean-Jacques Rousseau"],["Never leave till tomorrow what you can do today.","Benjamin Franklin"],["Life is like riding a bicycle; to keep your balance you must keep moving.","Albert Einstein"],["Whether you think you can or you think you can't, you're right.","Henry Ford"],["Drop by drop, a lake is made.","Turkish proverb"],["A cup of coffee is remembered for forty years.","Turkish proverb"],["The patient dervish reaches his wish.","Turkish proverb"]];
     let qi = Math.floor(Math.random() * quotes.length);
-    const showQuote = () => { if (!msg.dataset.error) msg.textContent = quotes[qi++ % quotes.length]; };
+    const showQuote = () => { if (msg.dataset.error) return; const q = quotes[qi++ % quotes.length]; msg.textContent = q[0] + "\n\u2014 " + q[1]; };
     showQuote();
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/b6f55a76a5ce4c419daf57abf1660a44.data.unityweb",
-      frameworkUrl: buildUrl + "/9234e488906744b221da5b4b36722e77.framework.js.unityweb",
-      codeUrl: buildUrl + "/bd17f29e19f0bd98d1f03b07c04dea93.wasm.unityweb",
+      dataUrl: buildUrl + "/4799d575cb8ca6747920d565641bbcd6.data.unityweb",
+      frameworkUrl: buildUrl + "/0bbc6aff800a2cbc87d4239f874a6f36.framework.js.unityweb",
+      codeUrl: buildUrl + "/3768765ca13171b1a7717364909df5e1.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
