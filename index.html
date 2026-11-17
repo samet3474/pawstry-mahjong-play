@@ -7,6 +7,8 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#2a170b">
   <title>Purrista Mahjong</title>
+  <link rel="icon" type="image/png" href="TemplateData/favicon.png">
+  <link rel="apple-touch-icon" href="TemplateData/apple-touch-icon.png">
   <style>
     html, body { margin: 0; padding: 0; height: 100%; background: #1f3d3a; overflow: hidden; overscroll-behavior: none;
       -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%;
@@ -58,9 +60,9 @@
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/5ef9f97f3ba70828fd9e61419da21084.data.unityweb",
+      dataUrl: buildUrl + "/9639ccac3ec7a498ca80345522208ffb.data.unityweb",
       frameworkUrl: buildUrl + "/adb4f57cb3b8657ded89c241baceb793.framework.js.unityweb",
-      codeUrl: buildUrl + "/3c261965d239cc41ed9ad22107a29f28.wasm.unityweb",
+      codeUrl: buildUrl + "/8fb6516e5d4a69e0ffd2bfb8fd105456.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
@@ -82,7 +84,7 @@
                            : "Your browser does not support WebGL 2. Please try an up-to-date Chrome, Safari 15+ or Edge.";
     }
     const script = document.createElement("script");
-    script.src = buildUrl + "/27a573bb1fffb1a5d4a50b73c9b7bfa8.loader.js";
+    script.src = buildUrl + "/2e3f50a497fb2a1b7a225ab5836130a6.loader.js";
     script.onload = () => {
       createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 90) + "%"; })
         .then(() => { clearInterval(quoteTimer); fill.style.width = "100%"; setTimeout(() => { loading.style.transition = "opacity .35s"; loading.style.opacity = "0"; setTimeout(() => { loading.style.display = "none"; }, 380); }, 350); })
