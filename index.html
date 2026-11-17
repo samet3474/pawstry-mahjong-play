@@ -63,9 +63,9 @@
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/4799d575cb8ca6747920d565641bbcd6.data.unityweb",
-      frameworkUrl: buildUrl + "/0bbc6aff800a2cbc87d4239f874a6f36.framework.js.unityweb",
-      codeUrl: buildUrl + "/3768765ca13171b1a7717364909df5e1.wasm.unityweb",
+      dataUrl: buildUrl + "/91ba79df69484c5df50dafbc6b3d128d.data.unityweb",
+      frameworkUrl: buildUrl + "/31a9f5a073b7290c8452cda88e4ad181.framework.js.unityweb",
+      codeUrl: buildUrl + "/14658294e86849dfff5fe701210f7202.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
@@ -87,10 +87,10 @@
                            : "Your browser does not support WebGL 2. Please try an up-to-date Chrome, Safari 15+ or Edge.";
     }
     const script = document.createElement("script");
-    script.src = buildUrl + "/1756fb40e517ef3536a196ebc813a264.loader.js";
+    script.src = buildUrl + "/2a768bd59b42c03161f108209c851733.loader.js";
     script.onload = () => {
       createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 90) + "%"; document.querySelector("#pct").textContent = "%" + Math.round(p * 90); })
-        .then(() => { clearInterval(quoteTimer); fill.style.width = "100%"; document.querySelector("#pct").textContent = "%100"; setTimeout(() => { loading.style.transition = "opacity .35s"; loading.style.opacity = "0"; setTimeout(() => { loading.style.display = "none"; }, 380); }, 350); })
+        .then((instance) => { window.purristaUnity = instance; clearInterval(quoteTimer); fill.style.width = "100%"; document.querySelector("#pct").textContent = "%100"; setTimeout(() => { loading.style.transition = "opacity .35s"; loading.style.opacity = "0"; setTimeout(() => { loading.style.display = "none"; }, 380); }, 350); })
         .catch(e => { msg.textContent = String(e); });
     };
     script.onerror = () => { msg.textContent = "Could not load the game files."; };
