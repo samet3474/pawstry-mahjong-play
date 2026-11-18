@@ -63,9 +63,9 @@
     const quoteTimer = setInterval(showQuote, 3500);
     const buildUrl = "Build";
     const config = {
-      dataUrl: buildUrl + "/8185cc3c0cca9514c94556e4ea439603.data.unityweb",
-      frameworkUrl: buildUrl + "/b69e46d95e98584835dd1570de38bb5d.framework.js.unityweb",
-      codeUrl: buildUrl + "/c04f4cbad6fcde3a19c29bb5575a1586.wasm.unityweb",
+      dataUrl: buildUrl + "/27d361ee16c9dff69025446b63bc83fd.data.unityweb",
+      frameworkUrl: buildUrl + "/fdbd48234d0d60b00a4019a97a1001e5.framework.js.unityweb",
+      codeUrl: buildUrl + "/25d322f671e73c45508c4afdec68cda1.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "samet3474",
       productName: "Purrista Mahjong",
@@ -87,7 +87,7 @@
                            : "Your browser does not support WebGL 2. Please try an up-to-date Chrome, Safari 15+ or Edge.";
     }
     const script = document.createElement("script");
-    script.src = buildUrl + "/a3d8d1242bf4ecd98963c58aa2b4bbc6.loader.js";
+    script.src = buildUrl + "/a4867b85992aee1f879625bf8f72f284.loader.js";
     script.onload = () => {
       createUnityInstance(canvas, config, p => { fill.style.width = Math.round(p * 90) + "%"; document.querySelector("#pct").textContent = "%" + Math.round(p * 90); })
         .then((instance) => { window.purristaUnity = instance; clearInterval(quoteTimer); fill.style.width = "100%"; document.querySelector("#pct").textContent = "%100"; setTimeout(() => { loading.style.transition = "opacity .35s"; loading.style.opacity = "0"; setTimeout(() => { loading.style.display = "none"; }, 380); }, 350); })
